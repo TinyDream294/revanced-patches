@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.0"
 }
 
 group = "app.revanced"
@@ -32,13 +32,15 @@ dependencies {
     implementation("com.google.guava:guava:32.1.2-jre")
     // Used in JsonGenerator.
     implementation("com.google.code.gson:gson:2.10.1")
+    // Required for FlexVer-Java
+    implementation("com.unascribed:flexver-java:1.1.0")
     // A dependency to the Android library unfortunately fails the build,
     // which is why this is required for the patch change-oauth-client-id.
     compileOnly(project("dummy"))
 }
 
 kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
 }
 
 tasks {
@@ -48,7 +50,7 @@ tasks {
 
         doLast {
             val androidHome = System.getenv("ANDROID_HOME") ?: throw GradleException("ANDROID_HOME not found")
-            val d8 = "${androidHome}/build-tools/33.0.1/d8"
+            val d8 = "${androidHome}/build-tools/34.0.0/d8"
             val input = configurations.archives.get().allArtifacts.files.files.first().absolutePath
             val work = File("${buildDir}/libs")
 
